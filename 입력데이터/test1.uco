@@ -1,0 +1,70 @@
+           bgn 1
+           sym 0 0 1    % MAX
+           ldc 10
+           str 0 0
+           ldp
+           call main
+           end
+main       proc 1 12
+           sym 1 0 1    % i
+           sym 1 1 10   % a[10]
+           sym 1 11 1   % j
+           ldc 0
+           dup
+           str 1 11
+           str 1 0
+$$0        nop          % begin of while
+           lod 1 0
+           lod 0 0
+           lt
+           fjp $$1
+           lod 1 0
+           lda 1 1
+           add
+           lod 1 11
+           sti
+           lod 1 0
+           lda 1 1
+           add
+           ldp
+           lod 1 0
+           lda 1 1
+           call sub
+           sti
+           lod 1 11
+           lod 1 0
+           lda 1 1
+           add
+           ldi
+           add
+           str 1 11
+           lod 1 0
+           inc
+           str 1 0
+           ujp $$0
+$$1        nop          % end of while
+           ldp
+           lod 1 11
+           call write
+           call lf
+           ret
+           end
+sub        proc 2 3
+           sym 2 0 1
+           sym 2 1 1
+           str 2 1      % copy parameter value
+           str 2 0      % copy parameter value
+           sym 2 2 1
+           ldp
+           lda 2 2
+           call read
+           lod 2 2
+           lod 2 0
+           lod 2 1
+           add
+           ldi
+           add
+           str 2 2
+           lod 2 2
+           retv
+           end      

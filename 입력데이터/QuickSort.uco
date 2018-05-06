@@ -1,0 +1,205 @@
+           bgn 0
+           ldp
+           call main
+           end
+Swap       proc 1 4
+           sym 1 0 1         % idx2
+           sym 1 1 1         % idx1
+           sym 1 2 1         % arr狼林家
+           str 1 2           % copy parameters
+           str 1 1           % copy parameters
+           str 1 0           % copy parameters
+           sym 1 3 1         % temp
+           lod 1 1
+           lod 1 2
+           add               % arr[idx1]狼 林家
+           ldi               % arr[idx1]
+           str 1 3           % temp = arr[idx1]
+           lod 1 1           % idx1 利犁
+           lod 1 2           % arr狼林家 利犁
+           add               % arr[idx1]狼 林家
+           lod 1 0           % idx2 利犁
+           lod 1 2           % arr狼林家
+           add               % arr[idx2]狼 林家
+           ldi               % arr[idx2]蔼
+           sti               % arr[idx1] = arr[idx2]
+           lod 1 0           % idx2 利犁
+           lod 1 2           % arr狼 林家 利犁
+           add               % arr[idx2]狼 林家
+           lod 1 3           % temp 利犁
+           sti               % arr[idx2] = temp
+           ret
+           end
+Partition  proc 2 6
+           sym 2 0 1         % right
+           sym 2 1 1         % left
+           sym 2 2 1         % arr狼 林家
+           str 2 2           % copy parameters
+           str 2 1           % copy parameters
+           str 2 0           % copy parameters
+           sym 2 3 1         % pivot
+           sym 2 4 1         % low
+           sym 2 5 1         % high
+           lod 2 1           % left 利犁
+           lod 2 2           % arr狼 林家 利犁
+           add               % arr[left]狼 林家
+           ldi               % arr[left]狼 蔼 利犁
+           str 2 3           % pivot = arr[left]
+           lod 2 1           % left 利犁
+           ldc 1
+           add
+           str 2 4           % low = left + 1
+           lod 2 0           % right 利犁
+           str 2 5           % high = right
+$$0        nop               % while 巩 矫累
+           lod 2 4           % low
+           lod 2 5           % high
+           le                % while(low <= high)
+           fjp $$4
+$$1        nop
+           lod 2 3           % pivot
+           lod 2 4           % low
+           lod 2 2           % arr狼 林家
+           add               % arr[low] 狼 林家
+           ldi               % arr[low]
+           ge                % while(pivot >= arr[low])
+           lod 2 4
+           lod 2 0
+           le                % low <= right
+           and               % while(pivot >= arr[low] && low <= right)
+           fjp $$2
+           lod 2 4           
+           inc
+           str 2 4           % ++low
+           ujp $$1
+$$2        nop
+           lod 2 3           % pivot
+           lod 2 5           % high
+           lod 2 2           % arr狼 林家
+           add               % arr[high] 狼 林家
+           ldi               % arr[high]
+           le                % while(pivot <= arr[high])
+           lod 2 5
+           lod 2 1
+           ldc 1
+           add
+           ge                % high >= (left+1)
+           and               % while(pivot <= arr[high] && high >= (left+1))
+           fjp $$3
+           lod 2 5
+           dec
+           str 2 5           % --high
+           ujp $$2
+$$3        nop
+           lod 2 4
+           lod 2 5
+           le                % if(low <= high)
+           fjp $$4
+           ldp
+           lod 2 5           % high
+           lod 2 4           % low
+           lod 2 2           % arr狼 林家
+           call Swap         % Swap(arr,low,high)
+           ujp $$0           % while巩 辆丰
+$$4        nop
+           ldp
+           lod 2 5           % high
+           lod 2 1           % left
+           lod 2 2           % arr狼 林家
+           call Swap         % Swap(arr,left,high)
+           lod 2 5           % high
+           retv
+           end
+QuickSort  proc 3 4
+           sym 3 0 1         % right
+           sym 3 1 1         % left
+           sym 3 2 1         % arr狼 林家
+           str 3 2           % arr狼 林家 copy
+           str 3 1           % left copy
+           str 3 0           % right copy
+           sym 3 3           % pivot
+           lod 3 1           % left
+           lod 3 0           % right
+           le                % if(left <= right)
+           fjp $$5
+           ldp
+           lod 3 0           % right
+           lod 3 1           % left
+           lod 3 2           % arr狼 林家
+           call Partition    % Partition(arr,left,right)
+           str 3 3           % pivot = Partition(arr,left,right)
+           ldp
+           lod 3 0           % right
+           lod 3 3           % pivot
+           ldc 1
+           add               % pivot + 1
+           lod 3 2           % arr狼 林家
+           ldp
+           lod 3 3           % pivot
+           ldc 1
+           sub               % pivot - 1
+           lod 3 1           % left
+           lod 3 2           % arr狼 林家
+           call QuickSort    % QuickSort(arr,left,pivot - 1)
+           call QuickSort    % QuickSort(arr,pivot + 1,right)
+$$5        nop
+           ret
+           end
+main       proc 4 103
+           sym 4 0 100       % list[100]
+           sym 4 100 1       % element    
+           sym 4 101 1       % i
+           sym 4 102 1       % len
+           ldc 0
+           str 4 101         % i = 0
+           ldp
+           lda 4 100         % element狼 林家
+           call read         % scanf("%d",&element)
+$$6        nop               % while巩 矫累
+           lod 4 100
+           ldc 0
+           ne                % while(element != 0)
+           fjp $$7
+           lod 4 101
+           lda 4 0
+           add               % list[i]狼 林家
+           lod 4 100         % element
+           sti               % list[i] = element
+           lod 4 101
+           inc
+           str 4 101         % ++i
+           ldp
+           lda 4 100         % element狼 林家
+           call read         % scanf("%d",&element)
+           ujp $$6           % while巩 辆丰
+$$7        nop
+           lod 4 101
+           str 4 102         % len = i
+           ldp
+           lod 4 101
+           ldc 1
+           sub               % i - 1
+           ldc 0
+           lda 4 0           % list狼 林家
+           call QuickSort    % QuickSort(list,0,i - 1)
+           ldc 0
+           str 4 101         % i = 0
+$$8        nop               % for巩 矫累
+           lod 4 101         % i
+           lod 4 102         % len  
+           lt                % i < len
+           fjp $$9
+           ldp
+           lod 4 101         % i
+           lda 4 0           % list狼 林家
+           add               % list[i]狼 林家
+           ldi               % list[i]
+           call write
+           lod 4 101
+           inc
+           str 4 101         % ++i
+           ujp $$8           % for巩 辆丰
+$$9        nop
+           call lf
+           ret
+           end

@@ -1,0 +1,118 @@
+           bgn 0
+           ldp
+           call main
+           end
+main       proc 1 105
+           sym 1 0 100    % list
+           sym 1 100 1    % element
+           sym 1 101 1    % total
+           sym 1 102 1    % i
+           sym 1 103 1    % top
+           sym 1 104 1    % temp
+           ldc 0
+           str 1 102
+           ldp
+           lda 1 100
+           call read
+$$0        nop            % while stmt for input
+           lod 1 100
+           ldc 0
+           ne
+           fjp $$1
+           lod 1 102
+           lda 1 0
+           add
+           lod 1 100
+           sti
+           lod 1 102
+           inc
+           str 1 102
+           ldp
+           lda 1 100
+           call read
+           ujp $$0
+$$1        nop            % end of while
+           lod 1 102
+           ldc 1
+           sub
+           dup
+           str 1 101
+           str 1 103
+$$2        nop            % while for sorting
+           lod 1 103
+           ldc 1
+           gt
+           fjp $$3
+           ldc 0          % begin for stmt
+           str 1 102
+$$4        nop
+           lod 1 102
+           lod 1 103
+           lt
+           fjp $$5
+           lod 1 102      % begin of if condition
+           lda 1 0        
+           add
+           ldi            % list[i]
+           lod 1 102
+           ldc 1
+           add
+           lda 1 0
+           add            % list[i+1]
+           ldi
+           gt
+           fjp $$6 
+           lod 1 102
+           lda 1 0
+           add
+           ldi
+           str 1 104
+           lod 1 102
+           lda 1 0
+           add
+           lod 1 102
+           ldc 1
+           add
+           lda 1 0
+           add
+           ldi
+           sti
+           lod 1 102
+           ldc 1
+           add
+           lda 1 0
+           add
+           lod 1 104
+           sti
+$$6        nop            % end of if
+           lod 1 102
+           inc
+           str 1 102
+           ujp $$4
+$$5        nop            % end of for
+           lod 1 103
+           dec
+           str 1 103
+           ujp $$2
+$$3        nop            % end of while
+           ldc 0
+           str 1 102
+$$7        nop            % begin of last while
+           lod 1 102
+           lod 1 101
+           le
+           fjp $$8
+           ldp
+           lod 1 102      % i
+           dup            % duplication for post increment
+           lda 1 0        % &list
+           add
+           ldi
+           call write
+           inc
+           str 1 102      % post increment of i
+           ujp $$7
+$$8        nop
+           call lf
+           ret
+           end
